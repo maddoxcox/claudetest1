@@ -82,6 +82,16 @@
             padding: 4rem 0 2rem;
         }
 
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--border);
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
         .portfolio-hero h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
@@ -92,25 +102,40 @@
             max-width: 500px;
             margin: 0 auto;
         }
+
+        .hero-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.25rem;
+        }
+
+        .hero-nav a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .hero-nav a:hover {
+            color: var(--accent);
+        }
+
+        .projects-section h2 {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html" class="logo">Maddox<span>Cox</span></a>
-            <ul class="nav-links">
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="https://github.com/maddoxcox" target="_blank">GitHub</a></li>
-            </ul>
-            <button class="mobile-menu">☰</button>
-        </nav>
-    </header>
-
     <main>
         <section class="portfolio-hero">
             <div class="container">
+                <img src="images/photo.jpg" alt="Maddox Cox" class="profile-photo">
                 <h1>Maddox Cox</h1>
-                <p>CS student building things with code and AI.</p>
+                <nav class="hero-nav">
+                    <a href="#projects">Projects</a>
+                    <a href="https://github.com/maddoxcox" target="_blank">GitHub</a>
+                </nav>
             </div>
         </section>
 
@@ -123,7 +148,7 @@
                         <div class="preview">🎓</div>
                         <div class="details">
                             <h3>GPA Calculator</h3>
-                            <p>Enter letter grades or percentages, get your GPA. Supports A+ through F with +/- modifiers.</p>
+                            <p>Enter letter grades or percentages, get your GPA. Supports A+ through F with +/- modifiers. Built with Claude Code.</p>
                             <div class="tags">
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">Interactive</span>
@@ -139,7 +164,7 @@
                         <div class="preview">📋</div>
                         <div class="details">
                             <h3>Student Record Validator</h3>
-                            <p>Enter student records and validate them for errors. Checks names, grades, and emails, then generates a full error report.</p>
+                            <p>Enter student records and validate them for errors. Checks names, grades, and emails, then generates a full error report. Built with Claude Code.</p>
                             <div class="tags">
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">Python</span>
@@ -156,7 +181,7 @@
                         <div class="preview">🌤️</div>
                         <div class="details">
                             <h3>Weather CLI</h3>
-                            <p>Search for any city and get current weather conditions. Uses real-time data from the OpenWeather API.</p>
+                            <p>Search for any city and get current weather conditions. Uses real-time data from the OpenWeather API. Built with Claude Code.</p>
                             <div class="tags">
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">API</span>
@@ -173,7 +198,7 @@
                         <div class="preview">💻</div>
                         <div class="details">
                             <h3>JS Learning</h3>
-                            <p>Interactive JavaScript lessons with a built-in code editor. Covers basics through intermediate topics.</p>
+                            <p>Interactive JavaScript lessons with a built-in code editor. Covers basics through intermediate topics. Built with Claude Code.</p>
                             <div class="tags">
                                 <span class="tag">HTML/CSS/JS</span>
                                 <span class="tag">Educational</span>

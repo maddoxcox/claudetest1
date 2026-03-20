@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../../css/styles.css">
     <style>
         .calc-container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 2rem 20px;
         }
@@ -21,164 +21,154 @@
             margin-bottom: 0.25rem;
         }
 
-        .input-group {
+        /* Terminal Window */
+        .terminal {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid #3a3a4a;
+        }
+
+        .terminal-titlebar {
+            background-color: #2b2b3b;
+            padding: 0.6rem 1rem;
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            border: 2px solid var(--border);
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: inherit;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .input-group input:focus {
-            border-color: var(--accent);
-        }
-
-        .input-group input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .add-btn-row {
-            margin-bottom: 1.5rem;
-        }
-
-        .records-list {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .records-list li {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 1rem;
-            background-color: var(--bg-secondary);
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            border: 1px solid var(--border);
-            animation: fadeIn 0.3s ease forwards;
+            gap: 0.6rem;
         }
 
-        .record-info {
+        .terminal-dots {
             display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
+            gap: 6px;
         }
 
-        .record-name {
-            font-weight: 600;
-            color: var(--text-primary);
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
 
-        .record-details {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        .terminal-dot.red { background-color: #ff5f57; }
+        .terminal-dot.yellow { background-color: #febc2e; }
+        .terminal-dot.green { background-color: #28c840; }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            color: #8a8a9a;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
         }
 
-        .records-list .remove-btn {
+        .terminal-body {
+            background-color: #1e1e2e;
+            padding: 1.25rem;
+            min-height: 280px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .terminal-output {
+            color: #cdd6f4;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.25rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .terminal-line .prompt {
+            color: #a6e3a1;
+        }
+
+        .terminal-line .cmd {
+            color: #89b4fa;
+        }
+
+        .terminal-line.error {
+            color: #f38ba8;
+        }
+
+        .terminal-line.success {
+            color: #a6e3a1;
+        }
+
+        .terminal-line.info {
+            color: #cdd6f4;
+        }
+
+        .terminal-line.dim {
+            color: #6c7086;
+        }
+
+        .terminal-input-row {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-top: 0.5rem;
+        }
+
+        .terminal-input-row .prompt-label {
+            color: #a6e3a1;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .terminal-input-row input {
+            flex: 1;
             background: none;
             border: none;
-            color: var(--text-secondary);
-            font-size: 1.25rem;
-            cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            transition: color 0.3s ease, background-color 0.3s ease;
+            color: #cdd6f4;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            outline: none;
+            caret-color: #a6e3a1;
+            padding: 0;
+            margin-left: 0;
         }
 
-        .records-list .remove-btn:hover {
-            color: var(--error);
-            background-color: rgba(220, 38, 38, 0.1);
+        .terminal-input-row input::placeholder {
+            color: #585b70;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-        }
-
-        .result-card {
-            background-color: var(--bg-secondary);
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            border: 1px solid var(--border);
-            margin-top: 1.5rem;
-        }
-
-        .result-counts {
+        .terminal-actions {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background-color: #181825;
+            border-top: 1px solid #313244;
         }
 
-        .count-item {
-            text-align: center;
-        }
-
-        .count-item .count-num {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 0.25rem;
-        }
-
-        .count-item .count-label {
+        .terminal-btn {
+            padding: 0.4rem 1rem;
+            border: 1px solid #45475a;
+            border-radius: 5px;
+            background-color: #313244;
+            color: #cdd6f4;
+            font-family: 'Fira Code', 'Consolas', monospace;
             font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
-        .count-total { color: var(--accent); }
-        .count-valid { color: var(--success); }
-        .count-invalid { color: var(--error); }
-
-        .error-list {
-            text-align: left;
-            margin-top: 1rem;
+        .terminal-btn:hover {
+            background-color: #45475a;
+            border-color: #585b70;
         }
 
-        .error-list h4 {
-            color: var(--error);
-            margin-bottom: 0.75rem;
-            font-size: 0.95rem;
-        }
-
-        .error-list ul {
-            list-style: none;
-        }
-
-        .error-list li {
-            padding: 0.5rem 0.75rem;
-            margin-bottom: 0.4rem;
-            background-color: rgba(220, 38, 38, 0.06);
-            border-left: 3px solid var(--error);
-            border-radius: 0 6px 6px 0;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-        }
-
-        .error-list .record-label {
+        .terminal-btn.run {
+            background-color: #a6e3a1;
+            color: #1e1e2e;
+            border-color: #a6e3a1;
             font-weight: 600;
-            color: var(--error);
         }
 
-        .all-valid {
-            color: var(--success);
-            font-weight: 600;
-            font-size: 1.1rem;
+        .terminal-btn.run:hover {
+            background-color: #94e2d5;
+            border-color: #94e2d5;
         }
 
         .calc-actions {
@@ -191,8 +181,14 @@
             flex: 1;
         }
 
-        .validate-row {
-            margin-bottom: 0.5rem;
+        /* Loading animation */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
         }
     </style>
 </head>
@@ -217,45 +213,33 @@
             <p>Add student records, then validate them all for errors.</p>
         </div>
 
-        <div class="input-group">
-            <input type="text" id="name-input" placeholder="Name (e.g. Jane Smith)" autofocus>
-            <input type="text" id="grade-input" placeholder="Grade (0-100)">
-            <input type="text" id="email-input" placeholder="Email (e.g. jane@school.edu)">
-        </div>
-        <div class="add-btn-row">
-            <button class="btn btn-primary" id="add-btn" style="width:100%">Add Record</button>
-        </div>
-
-        <ul class="records-list" id="records-list"></ul>
-
-        <div class="empty-state" id="empty-state">
-            No records yet. Add some above.
-        </div>
-
-        <div class="validate-row" id="validate-row" style="display:none;">
-            <button class="btn btn-success" id="validate-btn" style="width:100%">Validate All</button>
-        </div>
-
-        <div class="result-card" id="result-card" style="display:none;">
-            <div class="result-counts">
-                <div class="count-item">
-                    <div class="count-num count-total" id="count-total">0</div>
-                    <div class="count-label">Total</div>
+        <div class="terminal">
+            <div class="terminal-titlebar">
+                <div class="terminal-dots">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
                 </div>
-                <div class="count-item">
-                    <div class="count-num count-valid" id="count-valid">0</div>
-                    <div class="count-label">Valid</div>
+                <span class="terminal-title">student_validator.py — Python</span>
+                <div style="width: 48px;"></div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-output" id="terminal-output">
+                    <div class="terminal-line dim">$ python student_validator.py</div>
                 </div>
-                <div class="count-item">
-                    <div class="count-num count-invalid" id="count-invalid">0</div>
-                    <div class="count-label">Invalid</div>
+                <div class="terminal-input-row">
+                    <span class="prompt-label">$ Enter record (name, grade, email):&nbsp;</span>
+                    <input type="text" id="record-input" placeholder="Jane Smith, 95, jane@school.edu" autofocus>
                 </div>
             </div>
-            <div id="result-details"></div>
+            <div class="terminal-actions">
+                <button class="terminal-btn run" id="add-btn">Add</button>
+                <button class="terminal-btn run" id="validate-btn">Validate</button>
+                <button class="terminal-btn" id="clear-btn">Clear</button>
+            </div>
         </div>
 
         <div class="calc-actions">
-            <button class="btn btn-secondary" id="clear-btn">Clear All</button>
             <a href="https://github.com/maddoxcox/ai-club-learning/blob/main/month-1-foundations/day-02-record-validator/student_validator.py" target="_blank" class="btn btn-secondary">View Python Source</a>
         </div>
     </main>
@@ -268,16 +252,19 @@
 
     <script>
         const records = [];
-        const nameInput = document.getElementById("name-input");
-        const gradeInput = document.getElementById("grade-input");
-        const emailInput = document.getElementById("email-input");
+        const input = document.getElementById("record-input");
         const addBtn = document.getElementById("add-btn");
-        const clearBtn = document.getElementById("clear-btn");
         const validateBtn = document.getElementById("validate-btn");
-        const recordsList = document.getElementById("records-list");
-        const emptyState = document.getElementById("empty-state");
-        const validateRow = document.getElementById("validate-row");
-        const resultCard = document.getElementById("result-card");
+        const clearBtn = document.getElementById("clear-btn");
+        const output = document.getElementById("terminal-output");
+
+        function addLine(text, className) {
+            const line = document.createElement("div");
+            line.className = "terminal-line" + (className ? " " + className : "");
+            line.textContent = text;
+            output.appendChild(line);
+            output.scrollTop = output.scrollHeight;
+        }
 
         function validateName(name) {
             if (!name || name.trim() === "") return "Name is empty";
@@ -312,96 +299,76 @@
             return errors;
         }
 
+        function addRecord() {
+            const raw = input.value.trim();
+            if (!raw) return;
+
+            const parts = raw.split(",");
+            const name = (parts[0] || "").trim();
+            const grade = (parts[1] || "").trim();
+            const email = (parts[2] || "").trim();
+
+            records.push({ name, grade, email });
+            input.value = "";
+            input.focus();
+
+            addLine("$ Enter record: " + raw, "dim");
+            addLine(`Added record #${records.length}: ${name || "(no name)"}, ${grade || "(empty)"}, ${email || "(no email)"}`, "success");
+            addLine("", "");
+        }
+
         function validateBatch() {
+            if (records.length === 0) {
+                addLine("Error: No records to validate.", "error");
+                addLine("", "");
+                return;
+            }
+
+            addLine("$ validate_all()", "dim");
+            addLine(`Validating ${records.length} record${records.length > 1 ? "s" : ""}...`, "info");
+            addLine("", "");
+
             let validCount = 0;
             let invalidCount = 0;
-            const allErrors = [];
 
-            records.forEach((rec, i) => {
+            records.forEach((rec) => {
                 const errors = validateRecord(rec);
+                const label = rec.name || "(no name)";
                 if (errors.length === 0) {
                     validCount++;
+                    addLine(`  [PASS] ${label}`, "success");
                 } else {
                     invalidCount++;
-                    allErrors.push({ index: i, name: rec.name || "(no name)", errors });
+                    addLine(`  [FAIL] ${label}`, "error");
+                    errors.forEach(err => {
+                        addLine(`         - ${err}`, "error");
+                    });
                 }
             });
 
-            document.getElementById("count-total").textContent = records.length;
-            document.getElementById("count-valid").textContent = validCount;
-            document.getElementById("count-invalid").textContent = invalidCount;
+            addLine("", "");
+            addLine("--- Results ---", "info");
+            addLine(`Total:   ${records.length}`, "info");
+            addLine(`Valid:   ${validCount}`, "success");
+            addLine(`Invalid: ${invalidCount}`, invalidCount > 0 ? "error" : "info");
 
-            const details = document.getElementById("result-details");
-            if (allErrors.length === 0) {
-                details.innerHTML = '<p class="all-valid">All records are valid!</p>';
-            } else {
-                let html = '<div class="error-list"><h4>Errors Found</h4><ul>';
-                allErrors.forEach(item => {
-                    item.errors.forEach(err => {
-                        html += `<li><span class="record-label">${item.name}:</span> ${err}</li>`;
-                    });
-                });
-                html += '</ul></div>';
-                details.innerHTML = html;
+            if (invalidCount === 0) {
+                addLine("All records are valid!", "success");
             }
 
-            resultCard.style.display = "block";
+            addLine("", "");
         }
 
-        function addRecord() {
-            const name = nameInput.value;
-            const grade = gradeInput.value;
-            const email = emailInput.value;
-
-            if (!name.trim() && !grade.trim() && !email.trim()) return;
-
-            records.push({ name, grade, email });
-            nameInput.value = "";
-            gradeInput.value = "";
-            emailInput.value = "";
-            nameInput.focus();
-            resultCard.style.display = "none";
-            render();
-        }
-
-        function removeRecord(index) {
-            records.splice(index, 1);
-            resultCard.style.display = "none";
-            render();
-        }
-
-        function clearAll() {
+        function clearTerminal() {
             records.length = 0;
-            resultCard.style.display = "none";
-            render();
-        }
-
-        function render() {
-            recordsList.innerHTML = "";
-            emptyState.style.display = records.length === 0 ? "block" : "none";
-            validateRow.style.display = records.length === 0 ? "none" : "block";
-
-            records.forEach((rec, i) => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                    <div class="record-info">
-                        <span class="record-name">${rec.name || "(no name)"}</span>
-                        <span class="record-details">Grade: ${rec.grade || "(empty)"} | ${rec.email || "(no email)"}</span>
-                    </div>
-                    <button class="remove-btn" data-index="${i}">&times;</button>
-                `;
-                recordsList.appendChild(li);
-            });
-
-            recordsList.querySelectorAll(".remove-btn").forEach(btn => {
-                btn.addEventListener("click", () => removeRecord(parseInt(btn.dataset.index)));
-            });
+            output.innerHTML = "";
+            addLine("$ python student_validator.py", "dim");
         }
 
         addBtn.addEventListener("click", addRecord);
-        clearBtn.addEventListener("click", clearAll);
         validateBtn.addEventListener("click", validateBatch);
-        emailInput.addEventListener("keydown", (e) => {
+        clearBtn.addEventListener("click", clearTerminal);
+        input.addEventListener("keydown", (e) => {
             if (e.key === "Enter") addRecord();
         });
     </script>
