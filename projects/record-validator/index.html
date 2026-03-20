@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Record Validator — Maddox Cox</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .calc-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+
+        .calc-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .calc-header h1 {
+            margin-bottom: 0.25rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 2px solid var(--border);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent);
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .add-btn-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .records-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .records-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border);
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .record-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .record-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .record-details {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .records-list .remove-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .records-list .remove-btn:hover {
+            color: var(--error);
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .result-card {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+
+        .result-counts {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .count-item {
+            text-align: center;
+        }
+
+        .count-item .count-num {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .count-item .count-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .count-total { color: var(--accent); }
+        .count-valid { color: var(--success); }
+        .count-invalid { color: var(--error); }
+
+        .error-list {
+            text-align: left;
+            margin-top: 1rem;
+        }
+
+        .error-list h4 {
+            color: var(--error);
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .error-list ul {
+            list-style: none;
+        }
+
+        .error-list li {
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 0.4rem;
+            background-color: rgba(220, 38, 38, 0.06);
+            border-left: 3px solid var(--error);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .error-list .record-label {
+            font-weight: 600;
+            color: var(--error);
+        }
+
+        .all-valid {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .calc-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .calc-actions .btn {
+            flex: 1;
+        }
+
+        .validate-row {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../../index.html" class="logo">Maddox<span>Cox</span></a>
+            <ul class="nav-links">
+                <li><a href="../../index.html#projects">Projects</a></li>
+                <li><a href="https://github.com/maddoxcox" target="_blank">GitHub</a></li>
+            </ul>
+            <button class="mobile-menu">☰</button>
+        </nav>
+    </header>
+
+    <main class="calc-container">
+        <div class="calc-header">
+            <div class="breadcrumb">
+                <a href="../../index.html">Home</a> / Student Record Validator
+            </div>
+            <h1>Student Record Validator</h1>
+            <p>Add student records, then validate them all for errors.</p>
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="name-input" placeholder="Name (e.g. Jane Smith)" autofocus>
+            <input type="text" id="grade-input" placeholder="Grade (0-100)">
+            <input type="text" id="email-input" placeholder="Email (e.g. jane@school.edu)">
+        </div>
+        <div class="add-btn-row">
+            <button class="btn btn-primary" id="add-btn" style="width:100%">Add Record</button>
+        </div>
+
+        <ul class="records-list" id="records-list"></ul>
+
+        <div class="empty-state" id="empty-state">
+            No records yet. Add some above.
+        </div>
+
+        <div class="validate-row" id="validate-row" style="display:none;">
+            <button class="btn btn-success" id="validate-btn" style="width:100%">Validate All</button>
+        </div>
+
+        <div class="result-card" id="result-card" style="display:none;">
+            <div class="result-counts">
+                <div class="count-item">
+                    <div class="count-num count-total" id="count-total">0</div>
+                    <div class="count-label">Total</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-num count-valid" id="count-valid">0</div>
+                    <div class="count-label">Valid</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-num count-invalid" id="count-invalid">0</div>
+                    <div class="count-label">Invalid</div>
+                </div>
+            </div>
+            <div id="result-details"></div>
+        </div>
+
+        <div class="calc-actions">
+            <button class="btn btn-secondary" id="clear-btn">Clear All</button>
+            <a href="https://github.com/maddoxcox/ai-club-learning/blob/main/month-1-foundations/day-02-record-validator/student_validator.py" target="_blank" class="btn btn-secondary">View Python Source</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Maddox Cox — CS Student</p>
+        </div>
+    </footer>
+
+    <script>
+        const records = [];
+        const nameInput = document.getElementById("name-input");
+        const gradeInput = document.getElementById("grade-input");
+        const emailInput = document.getElementById("email-input");
+        const addBtn = document.getElementById("add-btn");
+        const clearBtn = document.getElementById("clear-btn");
+        const validateBtn = document.getElementById("validate-btn");
+        const recordsList = document.getElementById("records-list");
+        const emptyState = document.getElementById("empty-state");
+        const validateRow = document.getElementById("validate-row");
+        const resultCard = document.getElementById("result-card");
+
+        function validateName(name) {
+            if (!name || name.trim() === "") return "Name is empty";
+            if (!/^[a-zA-Z\s]+$/.test(name.trim())) return "Name must contain only letters and spaces";
+            return null;
+        }
+
+        function validateGrade(grade) {
+            if (grade === "" || grade === null || grade === undefined) return "Grade is empty";
+            const num = Number(grade);
+            if (isNaN(num)) return "Grade must be a number";
+            if (num < 0 || num > 100) return "Grade must be between 0 and 100";
+            return null;
+        }
+
+        function validateEmail(email) {
+            if (!email || email.trim() === "") return "Email is empty";
+            const trimmed = email.trim();
+            if (!trimmed.includes("@")) return "Email must contain @";
+            if (!trimmed.includes(".")) return "Email must contain a dot (.)";
+            return null;
+        }
+
+        function validateRecord(record) {
+            const errors = [];
+            const nameErr = validateName(record.name);
+            if (nameErr) errors.push(nameErr);
+            const gradeErr = validateGrade(record.grade);
+            if (gradeErr) errors.push(gradeErr);
+            const emailErr = validateEmail(record.email);
+            if (emailErr) errors.push(emailErr);
+            return errors;
+        }
+
+        function validateBatch() {
+            let validCount = 0;
+            let invalidCount = 0;
+            const allErrors = [];
+
+            records.forEach((rec, i) => {
+                const errors = validateRecord(rec);
+                if (errors.length === 0) {
+                    validCount++;
+                } else {
+                    invalidCount++;
+                    allErrors.push({ index: i, name: rec.name || "(no name)", errors });
+                }
+            });
+
+            document.getElementById("count-total").textContent = records.length;
+            document.getElementById("count-valid").textContent = validCount;
+            document.getElementById("count-invalid").textContent = invalidCount;
+
+            const details = document.getElementById("result-details");
+            if (allErrors.length === 0) {
+                details.innerHTML = '<p class="all-valid">All records are valid!</p>';
+            } else {
+                let html = '<div class="error-list"><h4>Errors Found</h4><ul>';
+                allErrors.forEach(item => {
+                    item.errors.forEach(err => {
+                        html += `<li><span class="record-label">${item.name}:</span> ${err}</li>`;
+                    });
+                });
+                html += '</ul></div>';
+                details.innerHTML = html;
+            }
+
+            resultCard.style.display = "block";
+        }
+
+        function addRecord() {
+            const name = nameInput.value;
+            const grade = gradeInput.value;
+            const email = emailInput.value;
+
+            if (!name.trim() && !grade.trim() && !email.trim()) return;
+
+            records.push({ name, grade, email });
+            nameInput.value = "";
+            gradeInput.value = "";
+            emailInput.value = "";
+            nameInput.focus();
+            resultCard.style.display = "none";
+            render();
+        }
+
+        function removeRecord(index) {
+            records.splice(index, 1);
+            resultCard.style.display = "none";
+            render();
+        }
+
+        function clearAll() {
+            records.length = 0;
+            resultCard.style.display = "none";
+            render();
+        }
+
+        function render() {
+            recordsList.innerHTML = "";
+            emptyState.style.display = records.length === 0 ? "block" : "none";
+            validateRow.style.display = records.length === 0 ? "none" : "block";
+
+            records.forEach((rec, i) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <div class="record-info">
+                        <span class="record-name">${rec.name || "(no name)"}</span>
+                        <span class="record-details">Grade: ${rec.grade || "(empty)"} | ${rec.email || "(no email)"}</span>
+                    </div>
+                    <button class="remove-btn" data-index="${i}">&times;</button>
+                `;
+                recordsList.appendChild(li);
+            });
+
+            recordsList.querySelectorAll(".remove-btn").forEach(btn => {
+                btn.addEventListener("click", () => removeRecord(parseInt(btn.dataset.index)));
+            });
+        }
+
+        addBtn.addEventListener("click", addRecord);
+        clearBtn.addEventListener("click", clearAll);
+        validateBtn.addEventListener("click", validateBatch);
+        emailInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") addRecord();
+        });
+    </script>
+    <script src="../../js/main.js"></script>
+</body>
+</html>
