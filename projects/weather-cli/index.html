@@ -190,21 +190,32 @@
         .cursor-blink {
             animation: blink 1s step-end infinite;
         }
+
+        .hero-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.5rem 0;
+        }
+
+        .hero-nav a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .hero-nav a:hover {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="../../index.html" class="logo">Maddox<span>Cox</span></a>
-            <ul class="nav-links">
-                <li><a href="../../index.html#projects">Projects</a></li>
-                <li><a href="https://github.com/maddoxcox" target="_blank">GitHub</a></li>
-            </ul>
-            <button class="mobile-menu">☰</button>
-        </nav>
-    </header>
-
     <main class="calc-container">
+        <nav class="hero-nav">
+            <a href="../../index.html#projects">Projects</a>
+            <a href="https://github.com/maddoxcox" target="_blank">GitHub</a>
+        </nav>
         <div class="calc-header">
             <div class="breadcrumb">
                 <a href="../../index.html">Home</a> / Weather CLI
